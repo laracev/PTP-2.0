@@ -186,14 +186,14 @@
 
                         <StackPanel Grid.Column="0">
                             <Label Content="Diätziel:"/>
-                            <ComboBox Name="diätzielCombo" SelectionChanged="ComboBox_SelectionChanged">
+                            <ComboBox Background="#FFDFF3E4" Name="diätzielCombo" SelectionChanged="ComboBox_SelectionChanged">
                                 <Label Name="zunehmenComboans" Content="Gewicht Zunehmen"/>
                                 <Label Name="haltenComboans" Content="Gewicht Halten"/>
                                 <Label Name="abnehmenComboans" Content="Gewicht Abnehmen"/>
                             </ComboBox>
 
                             <Label Content="Alltagstätigkeit:" Margin="0,16,0,0"/>
-                            <ComboBox Name="AlltagCombo" SelectionChanged="ComboBox_SelectionChanged_1">
+                            <ComboBox Background="#FFDFF3E4" Name="AlltagCombo" SelectionChanged="ComboBox_SelectionChanged_1">
                                 <Label Name="LPal" Content="nur liegend"/>
                                 <Label Name="MLPal" Content="Meist Liegend"/>
                                 <Label Name="NSPal" Content="Nur Sitzend (z.B. Büro)"/>
@@ -203,7 +203,7 @@
                             </ComboBox>
 
                             <Label Content="Geschlecht:" Margin="0,16,0,0"/>
-                            <ComboBox Name="Geschlechtcombo" SelectionChanged="ComboBox_SelectionChanged_2">
+                            <ComboBox Background="#FFDFF3E4" Name="Geschlechtcombo" SelectionChanged="ComboBox_SelectionChanged_2">
                                 <Label Name="malec" Content="Männlich"/>
                                 <Label Name="femc" Content="Weiblich"/>
                             </ComboBox>

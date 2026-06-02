@@ -24,7 +24,7 @@
     <Content Include="data\test_utf8.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Screenshot 2026-05-07 134630.png">
+    <Content Include="pictures\Screenshot 2026-05-07 134630.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
