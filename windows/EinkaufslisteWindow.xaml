@@ -19,7 +19,7 @@
         </StackPanel>
 
         <Border Grid.Row="1" Background="White" CornerRadius="22" BorderBrush="#FFE8E8EE" BorderThickness="1" Padding="18">
-            <DataGrid x:Name="DataGridShoppingList" AutoGenerateColumns="False" CanUserAddRows="False">
+            <DataGrid Background="#FFDFF3E4" x:Name="DataGridShoppingList" AutoGenerateColumns="False" CanUserAddRows="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Lebensmittel" Binding="{Binding FoodName}" Width="*"/>
                     <DataGridTextColumn Header="Menge (g)" Binding="{Binding AmountGram, StringFormat=F0}" Width="140"/>
@@ -28,8 +28,8 @@
         </Border>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,18,0,0">
-            <Button Content="Liste leeren" Padding="14,8" Margin="0,0,10,0" Click="Clear_Click"/>
-            <Button Content="Schließen" Padding="14,8" Click="Close_Click"/>
+            <Button Content="Liste leeren" Padding="14,8" Margin="0,0,10,0" Click="Clear_Click" Background="#FFFFD3F0"/>
+            <Button Content="Schließen" Padding="14,8" Click="Close_Click" Background="#FFFFDEF3"/>
         </StackPanel>
     </Grid>
 </Window>

@@ -14,7 +14,7 @@
     <Grid>
         <Image x:Name="Logo"
                Opacity="0"
-               Source="pack://siteoforigin:,,,/Screenshot 2026-05-07 134630.png"
+               Source="pack://siteoforigin:,,,/pictures/Screenshot 2026-05-07 134630.png"
                Width="200"
                Height="200"
                HorizontalAlignment="Center"
