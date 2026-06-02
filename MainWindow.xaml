@@ -252,15 +252,15 @@
                 <Canvas Name="canvas_rezeptvorschlag" Panel.ZIndex="2" Background="Transparent" Height="238" Width="499" Canvas.Left="590" Canvas.Top="258" HorizontalAlignment="Left" VerticalAlignment="Center">
 
                     <Canvas Background="White" Width="270"  Name="CanvasVorschlagUser" HorizontalAlignment="Center" Height="165" VerticalAlignment="Center" Canvas.Left="25" Canvas.Top="63">
+                        <views:UserControlRezeptvorschlag x:Name="RezeptvorschlagControl" Canvas.Left="0" Canvas.Top="0" Width="270" Height="165"/>
 
                     </Canvas>
                     <TextBlock Text="Rezeptvorschlag" FontSize="26" FontWeight="Bold" Foreground="#24242A" Canvas.Left="30" Canvas.Top="28"/>
-
+                    
                     <Border Width="112" Height="112" CornerRadius="32" Background="White" BorderBrush="#FFFFC8D7" BorderThickness="1" Canvas.Left="350" Canvas.Top="30">
                         <TextBlock Text="🍽" FontSize="52" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
 
-                    <Button Height="53" Width="156" Content="rezept anschauen" Canvas.Left="313" Canvas.Top="167" Background="#FFFFF4F8" BorderBrush="#FFFFC8D7" Foreground="#EB477B" Style="{StaticResource SmallAccentButtonStyle}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     <Canvas Height="152" Canvas.Left="25" Canvas.Top="68" Width="273"/>
                 </Canvas>
 

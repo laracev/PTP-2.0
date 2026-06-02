@@ -9,7 +9,7 @@ namespace Pantry_To_Plate.mods
 {
     public static class PantryService
     {
-        private static string path = @"data/test_utf8.csv";
+        private static string path = @"data\Pantry.csv";
 
         public static List<PantryItem> Load()
         {
@@ -25,17 +25,16 @@ namespace Pantry_To_Plate.mods
 
             foreach (string line in lines)
             {
+                if (string.IsNullOrWhiteSpace(line))
+                {
+                    continue;
+                }
+
                 string[] parts = line.Split(';');
 
                 if (parts.Length < 6)
                 {
                     continue;
-                }
-
-                double amount;
-                if (!double.TryParse(parts[1].Replace(",", "."), NumberStyles.Any, CultureInfo.InvariantCulture, out amount))
-                {
-                    amount = 0;
                 }
 
                 pantry.Add(new PantryItem
@@ -48,7 +47,7 @@ namespace Pantry_To_Plate.mods
                         Carbs = ReadDouble(parts, 4),
                         Fat = ReadDouble(parts, 5)
                     },
-                    AmountInGram = amount
+                    AmountInGram = ReadDouble(parts, 1)
                 });
             }
 
@@ -58,18 +57,21 @@ namespace Pantry_To_Plate.mods
         public static void Save(List<PantryItem> pantry)
         {
             Directory.CreateDirectory("data");
-            List<string> lines = new List<string>();
-            lines.Add("Name;AmountGram;Calories;Protein;Carbs;Fat");
+
+            List<string> lines = new List<string>
+            {
+                "Name;AmountGram;Calories;Protein;Carbs;Fat"
+            };
 
             foreach (PantryItem item in pantry.OrderBy(i => i.Name))
             {
-                if (item.Food == null || string.IsNullOrWhiteSpace(item.Food.Name))
+                if (item.Food == null || string.IsNullOrWhiteSpace(item.Food.Name) || item.AmountInGram <= 0)
                 {
                     continue;
                 }
 
                 lines.Add(string.Join(";",
-                    item.Food.Name,
+                    Clean(item.Food.Name),
                     item.AmountInGram.ToString(CultureInfo.InvariantCulture),
                     item.Food.Calories.ToString(CultureInfo.InvariantCulture),
                     item.Food.Protein.ToString(CultureInfo.InvariantCulture),
@@ -82,6 +84,11 @@ namespace Pantry_To_Plate.mods
 
         public static void AddOrUpdate(FoodItems food, double amountGram)
         {
+            if (food == null || string.IsNullOrWhiteSpace(food.Name) || amountGram <= 0)
+            {
+                return;
+            }
+
             List<PantryItem> pantry = Load();
             PantryItem existing = pantry.FirstOrDefault(p => string.Equals(p.Name, food.Name, StringComparison.OrdinalIgnoreCase));
 
@@ -103,6 +110,11 @@ namespace Pantry_To_Plate.mods
         {
             List<PantryItem> pantry = Load();
             List<Ingredient> missing = new List<Ingredient>();
+
+            if (recipe == null || recipe.Ingredients == null)
+            {
+                return missing;
+            }
 
             foreach (Ingredient needed in CombineSameIngredients(recipe.Ingredients))
             {
@@ -128,6 +140,11 @@ namespace Pantry_To_Plate.mods
 
         public static void ConsumeIngredients(Recipe recipe)
         {
+            if (recipe == null || recipe.Ingredients == null)
+            {
+                return;
+            }
+
             List<PantryItem> pantry = Load();
 
             foreach (Ingredient ingredient in CombineSameIngredients(recipe.Ingredients))
@@ -149,7 +166,11 @@ namespace Pantry_To_Plate.mods
 
             pantry = pantry.Where(p => p.AmountInGram > 0).ToList();
             Save(pantry);
-            AppLogger.Log($"Zutaten für Rezept verbraucht: {recipe.Name}");
+
+            if (recipe != null)
+            {
+                AppLogger.Log($"Zutaten für Rezept verbraucht: {recipe.Name}");
+            }
         }
 
         public static double CalculateMatchPercent(Recipe recipe)
@@ -161,12 +182,18 @@ namespace Pantry_To_Plate.mods
 
             List<PantryItem> pantry = Load();
             List<Ingredient> neededIngredients = CombineSameIngredients(recipe.Ingredients);
+
+            if (neededIngredients.Count == 0)
+            {
+                return 0;
+            }
+
             double percentSum = 0;
 
             foreach (Ingredient needed in neededIngredients)
             {
                 double available = GetAvailableAmount(pantry, needed.FoodName);
-                double ingredientPercent = Math.Min(available / needed.AmountGram, 1.0);
+                double ingredientPercent = needed.AmountGram <= 0 ? 0 : Math.Min(available / needed.AmountGram, 1.0);
                 percentSum += ingredientPercent;
             }
 
@@ -178,9 +205,13 @@ namespace Pantry_To_Plate.mods
             return GetMissingIngredients(recipe).Sum(i => i.AmountGram);
         }
 
-        // chatgpt: Wie mache ich das am besten, damit Zutaten mit ähnlichen Namen (z.B. "Tomate" und "Tomaten") zusammengefasst werden?
         private static List<Ingredient> CombineSameIngredients(List<Ingredient> ingredients)
         {
+            if (ingredients == null)
+            {
+                return new List<Ingredient>();
+            }
+
             return ingredients
                 .Where(i => i != null && !string.IsNullOrWhiteSpace(i.FoodName) && i.AmountGram > 0)
                 .GroupBy(i => Normalize(i.FoodName))
@@ -191,7 +222,6 @@ namespace Pantry_To_Plate.mods
                 })
                 .ToList();
         }
-        //chatgpt ende
 
         private static double GetAvailableAmount(List<PantryItem> pantry, string foodName)
         {
@@ -205,13 +235,22 @@ namespace Pantry_To_Plate.mods
             string pantry = Normalize(pantryName);
             string ingredient = Normalize(ingredientName);
 
+            if (string.IsNullOrWhiteSpace(pantry) || string.IsNullOrWhiteSpace(ingredient))
+            {
+                return false;
+            }
+
             if (pantry == ingredient)
             {
                 return true;
             }
 
-            return pantry.StartsWith(ingredient + " ") || pantry.StartsWith(ingredient + "-") || pantry.StartsWith(ingredient + "/") ||
-                   ingredient.StartsWith(pantry + " ") || ingredient.StartsWith(pantry + "-") || ingredient.StartsWith(pantry + "/");
+            return pantry.StartsWith(ingredient + " ") ||
+                   pantry.StartsWith(ingredient + "-") ||
+                   pantry.StartsWith(ingredient + "/") ||
+                   ingredient.StartsWith(pantry + " ") ||
+                   ingredient.StartsWith(pantry + "-") ||
+                   ingredient.StartsWith(pantry + "/");
         }
 
         private static string Normalize(string value)
@@ -241,6 +280,16 @@ namespace Pantry_To_Plate.mods
             }
 
             return 0;
+        }
+
+        private static string Clean(string value)
+        {
+            if (value == null)
+            {
+                return "";
+            }
+
+            return value.Replace(";", ",").Trim();
         }
     }
 }
