@@ -1,0 +1,302 @@
+﻿<Window x:Class="Pantry_To_Plate.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Pantry_To_Plate" 
+        mc:Ignorable="d" Title="Pantry To Plate"
+        Height="850" Width="1543"
+        WindowStartupLocation="CenterScreen" 
+        
+        xmlns:views="clr-namespace:Pantry_To_Plate.UserControls"
+        Background="#FFF7F7FA">
+
+
+    <!-- Ki promt: wie mach ich dieses eine window.resources nochmal?-->
+    <Window.Resources>
+
+        <SolidColorBrush x:Key="AccentBrush" Color="#EB477B"/>
+        <SolidColorBrush x:Key="AccentSoftBrush" Color="#FFFFF4F8"/>
+        <SolidColorBrush x:Key="AccentBorderBrush" Color="#FFFFC8D7"/>
+        <SolidColorBrush x:Key="TextDarkBrush" Color="#24242A"/>
+        <SolidColorBrush x:Key="TextMutedBrush" Color="#777783"/>
+        <SolidColorBrush x:Key="GreenBrush" Color="#648C58"/>
+        <SolidColorBrush x:Key="GreenSoftBrush" Color="#FFE8EFE5"/>
+
+        <DropShadowEffect x:Key="SoftShadow" Color="#22000000" BlurRadius="18" ShadowDepth="4" Opacity="0.28"/>
+
+        <DropShadowEffect x:Key="ButtonShadow" Color="#22000000" BlurRadius="14" ShadowDepth="3" Opacity="0.22"/>
+
+        <Style x:Key="NavButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="58"/>
+            <Setter Property="Margin" Value="24,6"/>
+            <Setter Property="FontSize" Value="23"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#34343A"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Padding" Value="24,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="NavBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" CornerRadius="18">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="Center" Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="NavBorder" Property="Background" Value="#FFF9F0F4"/>
+                                <Setter Property="Foreground" Value="#EB477B"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="NavBorder" Property="Background" Value="#FFFFE8F0"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ActiveNavButtonStyle" TargetType="Button" BasedOn="{StaticResource NavButtonStyle}">
+            <Setter Property="Background" Value="#FFFFF4F8"/>
+            <Setter Property="BorderBrush" Value="#FFFFC8D7"/>
+            <Setter Property="Foreground" Value="#EB477B"/>
+        </Style>
+        <!-- Ki ende -->
+
+        <Style x:Key="ActionButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#FFFFF4F8"/>
+            <Setter Property="Foreground" Value="#EB477B"/>
+            <Setter Property="BorderBrush" Value="#FFFFC8D7"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Effect" Value="{StaticResource ButtonShadow}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="ActionBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="22">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ActionBorder" Property="Background" Value="#FFFFE8F0"/>
+                                <Setter TargetName="ActionBorder" Property="BorderBrush" Value="#EB477B"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="ActionBorder" Property="Background" Value="#FFFFDDE9"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Kleiner Button -->
+        <Style x:Key="SmallAccentButtonStyle" TargetType="Button" BasedOn="{StaticResource ActionButtonStyle}">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Effect" Value="{x:Null}"/>
+            <Setter Property="Padding" Value="12,6"/>
+        </Style>
+
+        <!-- ProgressBars -->
+        <Style x:Key="ModernProgressBarStyle" TargetType="ProgressBar">
+            <Setter Property="Height" Value="18"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ProgressBar">
+                        <Grid>
+                            <Border x:Name="PART_Track" Background="{TemplateBinding Background}" CornerRadius="9"/>
+                            <Border x:Name="PART_Indicator" HorizontalAlignment="Left" Background="{TemplateBinding Foreground}" CornerRadius="9"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
+
+    <Grid Background="#FFF7F7FA">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="330"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Sidebar -->
+        <Border Grid.Column="0" Background="White" BorderBrush="#FFF0F0F3" BorderThickness="0,0,1,0">
+
+            <StackPanel>
+
+                <Image Source="/Screenshot 2026-05-07 134630.png" Stretch="Fill" Height="197" Width="214"/>
+
+                <TextBlock Text="Pantry To Plate" FontSize="24" FontWeight="Bold" Foreground="#24242A" Margin="34,0,34,4"/>
+
+                <TextBlock Text="Dein smarter Food- und Fitnessbegleiter" FontSize="13" Foreground="#777783" TextWrapping="Wrap" Margin="34,0,34,26"/>
+
+                <Button Content="Home" Style="{StaticResource ActiveNavButtonStyle}" Click="Button_Click_7"/>
+
+                <Button Content="Pantry" Style="{StaticResource NavButtonStyle}" Click="Button_Click_5"/>
+
+                <Button Content="Rezepte" Style="{StaticResource NavButtonStyle}" Click="Button_Click_6"/>
+
+                <Button Content="Einstellungen" Style="{StaticResource NavButtonStyle}" HorizontalAlignment="Stretch" Click="Button_Click"/>
+
+                <Border Margin="28,34,28,0" Padding="20" CornerRadius="24" Background="#FFFFF4F8" BorderBrush="#FFFFC8D7" BorderThickness="1">
+                    <StackPanel>
+                        <TextBlock Text="Tipp des Tages" FontSize="16" FontWeight="Bold" Foreground="#EB477B"/>
+                        <TextBlock x:Name="TippDesTagesText" Text="Plane deine Mahlzeiten aus dem, was du bereits im Pantry hast." FontSize="13" Foreground="#5D5D66" TextWrapping="Wrap" Margin="0,8,0,0"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Border>
+
+        <!-- Hauptbereich -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <Grid Margin="36,24,36,14">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel>
+                    <TextBlock Text="Home Dashboard" FontSize="34" FontWeight="Bold" Foreground="#24242A"/>
+                    <TextBlock Text="Überblick über Ziele, Nährwerte und schnelle Aktionen" FontSize="15" Foreground="#777783" Margin="0,6,0,0"/>
+                </StackPanel>
+            </Grid>
+
+            <Canvas Grid.Row="1" Margin="36,0,28,28">
+
+                <!-- Cards / Hintergründe -->
+                <Border Panel.ZIndex="1" Height="216" Width="462" Canvas.Left="0" Canvas.Top="0" CornerRadius="28" Background="White" BorderBrush="#FFE8E8EE" BorderThickness="1" Effect="{StaticResource SoftShadow}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                <Border Panel.ZIndex="1" Height="216" Width="217" Canvas.Left="486" Canvas.Top="0" CornerRadius="28" Background="White" BorderBrush="#FFE8E8EE" BorderThickness="1" Effect="{StaticResource SoftShadow}"/>
+
+                <Border Panel.ZIndex="1" Height="216" Width="198" Canvas.Left="724" Canvas.Top="0" CornerRadius="28" Background="White" BorderBrush="#FFE8E8EE" BorderThickness="1" Effect="{StaticResource SoftShadow}"/>
+
+                <Border Panel.ZIndex="1" Height="216" Width="214" Canvas.Left="942" Canvas.Top="0" CornerRadius="28" Background="White" BorderBrush="#FFE8E8EE" BorderThickness="1" Effect="{StaticResource SoftShadow}"/>
+
+                <Border Panel.ZIndex="1" Height="238" Width="499" Canvas.Left="590" Canvas.Top="258" CornerRadius="32" Background="#FFFFF9FB" BorderBrush="#FFFFC8D7" BorderThickness="1" Effect="{StaticResource SoftShadow}"/>
+
+                <Border Panel.ZIndex="1" Height="188" Width="198" Canvas.Left="0" Canvas.Top="258" CornerRadius="32" Background="White" BorderBrush="#FFE8E8EE" BorderThickness="1" Effect="{StaticResource SoftShadow}"/>
+
+                <Border Panel.ZIndex="1" Height="188" Width="198" Canvas.Left="230" Canvas.Top="258" CornerRadius="32" Background="White" BorderBrush="#FFE8E8EE" BorderThickness="1" Effect="{StaticResource SoftShadow}"/>
+
+                <Border Panel.ZIndex="1" Height="188" Width="198" Canvas.Left="0" Canvas.Top="500" CornerRadius="32" Background="White" BorderBrush="#FFE8E8EE" BorderThickness="1" Effect="{StaticResource SoftShadow}"/>
+
+                <Border Panel.ZIndex="1" Height="188" Width="198" Canvas.Left="230" Canvas.Top="500" CornerRadius="32" Background="White" BorderBrush="#FFE8E8EE" BorderThickness="1" Effect="{StaticResource SoftShadow}"/>
+
+                <!-- Kalorienziel -->
+                <Canvas Name="canvasKcalZiel" Panel.ZIndex="2" Background="Transparent" Height="193" Width="458" Canvas.Left="0" Canvas.Top="12" HorizontalAlignment="Left" VerticalAlignment="Top">
+
+                    <TextBlock Text="Kalorienziel" FontSize="18" FontWeight="Bold" Foreground="#24242A" Canvas.Left="28" Canvas.Top="20"/>
+
+                    <Label Name="KalorienzielText" FontSize="22" Foreground="#34343A" Content="Noch hast du Kein Kalorienziel... &#xD;&#xA;Schau doch mal bei den einstellungen!" Height="100" Width="402" Canvas.Left="26" Canvas.Top="55" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <Canvas Name="Canvasprogressbar" Height="22" Canvas.Left="26" Canvas.Top="160" Width="418" HorizontalAlignment="Center" VerticalAlignment="Top">
+                        <views:UserControl1 x:Name="KalorienProgressBar" Canvas.Left="0" Canvas.Top="0" Width="418" Height="18"/>
+                    </Canvas>
+                    <Canvas Height="193" Width="458"/>
+
+                </Canvas>
+
+                <!-- Fett -->
+                <Canvas Name="canvasFett" Panel.ZIndex="2" Background="Transparent" Height="192" Width="198" Canvas.Left="496" Canvas.Top="12" HorizontalAlignment="Center" VerticalAlignment="Top">
+
+                    <TextBlock Text="Fett" FontSize="18" FontWeight="Bold" Foreground="#24242A" Canvas.Left="20" Canvas.Top="22"/>
+                    <TextBlock Text="Tagesfortschritt" FontSize="13" Foreground="#777783" Canvas.Left="20" Canvas.Top="52"/>
+
+                    <Ellipse Width="54" Height="54" Fill="#FFE8EFE5" Canvas.Left="124" Canvas.Top="22"/>
+                    <TextBlock Text="g" FontSize="20" FontWeight="Bold" Foreground="#648C58" Canvas.Left="145" Canvas.Top="36"/>
+
+                    <ProgressBar Name="pbfett" Height="18" Width="169" Canvas.Left="15" Canvas.Top="150" Foreground="#648C58" Background="#FFE8EFE5" Style="{StaticResource ModernProgressBarStyle}" ValueChanged="ProgressBar_ValueChanged"/>
+                    <Label Name="FettCounterLabel" FontSize="22" Foreground="#34343A" Content="" Height="65" Width="184" Canvas.Top="80" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                </Canvas>
+
+                <!-- Proteine -->
+                <Canvas Name="canvasProteine" Panel.ZIndex="2" Background="Transparent" Height="191" Width="188" Canvas.Left="729" Canvas.Top="12" HorizontalAlignment="Center" VerticalAlignment="Top">
+
+                    <TextBlock Text="Proteine" FontSize="18" FontWeight="Bold" Foreground="#24242A" Canvas.Left="18" Canvas.Top="22"/>
+                    <TextBlock Text="Muskelpower" FontSize="13" Foreground="#777783" Canvas.Left="18" Canvas.Top="52"/>
+
+                    <Ellipse Width="54" Height="54" Fill="#FFFFF4F8" Canvas.Left="115" Canvas.Top="22"/>
+                    <TextBlock Text="P" FontSize="20" FontWeight="Bold" Foreground="#EB477B" Canvas.Left="134" Canvas.Top="36"/>
+
+                    <ProgressBar Height="18" Width="160" Canvas.Left="14" Canvas.Top="150" Foreground="#EB477B" Background="#FFFFDDE9" Style="{StaticResource ModernProgressBarStyle}" ValueChanged="ProgressBar_ValueChanged"/>
+                    <Label x:Name="ProteineCounterLabel" FontSize="22" Foreground="#34343A" Content="" Height="65" Width="184" Canvas.Top="80" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Canvas>
+
+                <!-- Kohlenhydrate -->
+                <Canvas Name="canvasKohlenhydrate" Panel.ZIndex="2" Background="Transparent" Height="191" Width="203" Canvas.Left="948" Canvas.Top="12" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                    <TextBlock Text="Carbs" FontSize="18" FontWeight="Bold" Foreground="#24242A" Canvas.Left="18" Canvas.Top="22"/>
+                    <TextBlock Text="Energielevel" FontSize="13" Foreground="#777783" Canvas.Left="18" Canvas.Top="52"/>
+
+                    <Ellipse Width="54" Height="54" Fill="#FFE8EFE5" Canvas.Left="129" Canvas.Top="22"/>
+                    <TextBlock Text="C" FontSize="20" FontWeight="Bold" Foreground="#648C58" Canvas.Left="148" Canvas.Top="36"/>
+
+                    <ProgressBar Height="18" Width="169" Canvas.Left="17" Canvas.Top="150" Foreground="#648C58" Background="#FFE8EFE5" Style="{StaticResource ModernProgressBarStyle}" ValueChanged="ProgressBar_ValueChanged"/>
+                    <Label Name="CarbsCounterLabel" FontSize="22" Foreground="#34343A" Content="" Height="65" Width="184" Canvas.Top="80" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Canvas>
+
+                <!-- Rezeptvorschlag -->
+                <Canvas Name="canvas_rezeptvorschlag" Panel.ZIndex="2" Background="Transparent" Height="238" Width="499" Canvas.Left="590" Canvas.Top="258" HorizontalAlignment="Left" VerticalAlignment="Center">
+
+                    <Canvas Background="White" Width="270"  Name="CanvasVorschlagUser" HorizontalAlignment="Center" Height="165" VerticalAlignment="Center" Canvas.Left="25" Canvas.Top="63">
+
+                    </Canvas>
+                    <TextBlock Text="Rezeptvorschlag" FontSize="26" FontWeight="Bold" Foreground="#24242A" Canvas.Left="30" Canvas.Top="28"/>
+
+                    <Border Width="112" Height="112" CornerRadius="32" Background="White" BorderBrush="#FFFFC8D7" BorderThickness="1" Canvas.Left="350" Canvas.Top="30">
+                        <TextBlock Text="🍽" FontSize="52" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+
+                    <Button Height="53" Width="156" Content="rezept anschauen" Canvas.Left="313" Canvas.Top="167" Background="#FFFFF4F8" BorderBrush="#FFFFC8D7" Foreground="#EB477B" Style="{StaticResource SmallAccentButtonStyle}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <Canvas Height="152" Canvas.Left="25" Canvas.Top="68" Width="273"/>
+                </Canvas>
+
+                <!-- Schnellaktionen Überschrift -->
+
+                <!-- Rezept hinzufügen -->
+                <Canvas Name="canvasrezeptHin" Panel.ZIndex="2" Background="Transparent" Height="188" Width="198" Canvas.Left="0" Canvas.Top="258" HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <Ellipse Height="118" Width="118" Fill="#FFFFF4F8" Stroke="#FFFFC8D7" StrokeThickness="1" Canvas.Left="40" Canvas.Top="18"/>
+                    <TextBlock Text="＋" FontSize="36" FontWeight="Bold" Foreground="#EB477B" Canvas.Left="81" Canvas.Top="46" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <Button Content="Neues Rezept" Height="70" Canvas.Left="10" Canvas.Top="108" Width="178" Click="Button_Click_1" Style="{StaticResource ActionButtonStyle}" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                </Canvas>
+
+                <!-- Mahlzeit hinzufügen -->
+                <Canvas Name="canvasMahlzeitHin" Panel.ZIndex="2" Background="Transparent" Height="188" Width="198" Canvas.Left="230" Canvas.Top="258" HorizontalAlignment="Left" VerticalAlignment="Center">
+                    <Ellipse Height="118" Width="118" Fill="#FFE8EFE5" Stroke="#FFD7E4D1" StrokeThickness="1" Canvas.Left="40" Canvas.Top="18"/>
+                    <TextBlock Text="＋" FontSize="36" FontWeight="Bold" Foreground="#648C58" Canvas.Left="81" Canvas.Top="46"/>
+                    <Button Content="Mahlzeit Hinzufügen" Height="70" Canvas.Left="10" Canvas.Top="108" Width="178" HorizontalAlignment="Left" VerticalAlignment="Center" Click="Button_Click_2" Style="{StaticResource ActionButtonStyle}"/>
+                </Canvas>
+
+                <!-- Neues Lebensmittel -->
+                <Canvas Name="canvasLebensmittelHin" Panel.ZIndex="2" Background="Transparent" Height="188" Width="198" Canvas.Left="0" Canvas.Top="500" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Ellipse Height="118" Width="118" Fill="#FFFFF4F8" Stroke="#FFFFC8D7" StrokeThickness="1" Canvas.Left="40" Canvas.Top="18"/>
+                    <TextBlock Text="＋" FontSize="36" FontWeight="Bold" Foreground="#EB477B" Canvas.Left="81" Canvas.Top="55"/>
+                    <Button Content="Neues Lebensmittel" Height="70" Canvas.Left="10" Canvas.Top="108" Width="178" HorizontalAlignment="Center" VerticalAlignment="Center" Click="Button_Click_3" Style="{StaticResource ActionButtonStyle}"/>
+                </Canvas>
+
+                <!-- Fitnessaktivität -->
+                <Canvas Name="Canvas_Fitnessaktivität" Panel.ZIndex="2" Background="Transparent" Height="188" Width="198" Canvas.Left="230" Canvas.Top="500" HorizontalAlignment="Left" VerticalAlignment="Center">
+                    <Ellipse Height="118" Width="118" Fill="#FFE8EFE5" Stroke="#FFD7E4D1" StrokeThickness="1" Canvas.Left="40" Canvas.Top="18"/>
+                    <TextBlock Text="＋" FontSize="36" FontWeight="Bold" Foreground="#648C58" Canvas.Left="81" Canvas.Top="53"/>
+                    <Button Content="Fitnessaktivität &#xD;&#xA;Hinzufügen" Height="67" Canvas.Left="12" Canvas.Top="111" Width="174" HorizontalAlignment="Center" VerticalAlignment="Top" Click="Button_Click_4" Style="{StaticResource ActionButtonStyle}"/>
+                </Canvas>
+                <views:UserControlRezeptvorschlag Height="159" Canvas.Left="617" Canvas.Top="322" Width="268"/>
+
+            </Canvas>
+        </Grid>
+        <Canvas/>
+    </Grid>
+</Window>

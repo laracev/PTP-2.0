@@ -1,0 +1,35 @@
+﻿<Window x:Class="Pantry_To_Plate.windows.EinkaufslisteWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Pantry_To_Plate.windows"
+        mc:Ignorable="d"
+        Title="EinkaufslisteWindow" Height="450" Width="800">
+    <Grid Margin="28">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Margin="0,0,0,18">
+            <TextBlock Text="Einkaufsliste" FontSize="30" FontWeight="Bold" Foreground="#24242A"/>
+            <TextBlock Text="Hier landen die fehlenden Zutaten aus deinen Rezepten." FontSize="14" Foreground="#777783" Margin="0,6,0,0"/>
+        </StackPanel>
+
+        <Border Grid.Row="1" Background="White" CornerRadius="22" BorderBrush="#FFE8E8EE" BorderThickness="1" Padding="18">
+            <DataGrid x:Name="DataGridShoppingList" AutoGenerateColumns="False" CanUserAddRows="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Lebensmittel" Binding="{Binding FoodName}" Width="*"/>
+                    <DataGridTextColumn Header="Menge (g)" Binding="{Binding AmountGram, StringFormat=F0}" Width="140"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,18,0,0">
+            <Button Content="Liste leeren" Padding="14,8" Margin="0,0,10,0" Click="Clear_Click"/>
+            <Button Content="Schließen" Padding="14,8" Click="Close_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

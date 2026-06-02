@@ -1,0 +1,109 @@
+<Window x:Class="Pantry_To_Plate.windows.RezepteWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="Rezepte" Height="760" Width="1180" WindowStartupLocation="CenterOwner" Background="#FFF7F7FA">
+    <Window.Resources>
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="Background" Value="#EB477B"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="14,8"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style x:Key="SecondaryButton" TargetType="Button">
+            <Setter Property="Background" Value="#FFFFF4F8"/>
+            <Setter Property="Foreground" Value="#EB477B"/>
+            <Setter Property="BorderBrush" Value="#FFFFC8D7"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="14,8"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="28">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Margin="0,0,0,22">
+            <TextBlock Text="Rezepte und Vorschläge" FontSize="32" FontWeight="Bold" Foreground="#24242A"/>
+            <TextBlock Text="Rezepte werden danach sortiert, wie viele Zutaten du bereits im Pantry hast." FontSize="14" Foreground="#777783" Margin="0,6,0,0"/>
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="350"/>
+                <ColumnDefinition Width="24"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Background="White" CornerRadius="22" BorderBrush="#FFE8E8EE" BorderThickness="1" Padding="20">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Rezeptvorschläge" FontSize="20" FontWeight="Bold" Foreground="#24242A"/>
+                    <ListBox x:Name="ListBoxRecipes" Grid.Row="1" FontSize="14" Margin="0,14,0,14" SelectionChanged="ListBoxRecipes_SelectionChanged"/>
+                    <Button Grid.Row="2" Content="Schließen" Style="{StaticResource SecondaryButton}" Click="Close_Click"/>
+                </Grid>
+            </Border>
+
+            <Border Grid.Column="2" Background="White" CornerRadius="22" BorderBrush="#FFE8E8EE" BorderThickness="1" Padding="24">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="180"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel>
+                        <TextBlock x:Name="TxtRecipeName" Text="Bitte Rezept auswählen" FontSize="26" FontWeight="Bold" Foreground="#24242A"/>
+                        <TextBlock x:Name="TxtRecipeDescription" FontSize="14" Foreground="#777783" Margin="0,6,0,0" TextWrapping="Wrap"/>
+                        <TextBlock x:Name="TxtRecipeMatch" FontSize="15" Foreground="#648C58" FontWeight="SemiBold" Margin="0,8,0,0"/>
+                    </StackPanel>
+
+                    <Grid Grid.Row="1" Margin="0,22,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Zutaten" FontSize="18" FontWeight="Bold" Foreground="#24242A"/>
+                        <TextBlock Grid.Column="1" Text="Fehlende Zutaten" FontSize="18" FontWeight="Bold" Foreground="#24242A" Margin="18,0,0,0"/>
+                    </Grid>
+
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="18"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <DataGrid x:Name="DataGridIngredients" AutoGenerateColumns="False" CanUserAddRows="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Lebensmittel" Binding="{Binding FoodName}" Width="*"/>
+                                <DataGridTextColumn Header="Menge (g)" Binding="{Binding AmountGram, StringFormat=F0}" Width="110"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <ListBox x:Name="ListBoxMissing" Grid.Column="2" FontSize="14"/>
+                    </Grid>
+
+                    <Border Grid.Row="3" Background="#FFFFF9FB" CornerRadius="18" BorderBrush="#FFFFC8D7" BorderThickness="1" Padding="16" Margin="0,20,0,18">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <TextBlock x:Name="TxtPreparation" TextWrapping="Wrap" FontSize="15" Foreground="#34343A"/>
+                        </ScrollViewer>
+                    </Border>
+
+                    <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Content="Fehlendes zur Einkaufsliste" Style="{StaticResource SecondaryButton}" Margin="0,0,10,0" Click="AddMissingToShoppingList_Click"/>
+                        <Button Content="Rezept nachkochen" Style="{StaticResource PrimaryButton}" Click="CookRecipe_Click"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>

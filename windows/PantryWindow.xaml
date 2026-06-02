@@ -1,0 +1,97 @@
+﻿<Window x:Class="Pantry_To_Plate.windows.PantryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Pantry_To_Plate.windows"
+        mc:Ignorable="d"
+        Title="PantryWindow" Height="661" Width="800">
+    <Window.Resources>
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="Background" Value="#EB477B"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="14,8"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style x:Key="SecondaryButton" TargetType="Button">
+            <Setter Property="Background" Value="#FFFFF4F8"/>
+            <Setter Property="Foreground" Value="#EB477B"/>
+            <Setter Property="BorderBrush" Value="#FFFFC8D7"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="14,8"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="28">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Margin="0,0,0,22">
+            <TextBlock Text="Pantry / Vorratsliste" FontSize="32" FontWeight="Bold" Foreground="#24242A"/>
+            <TextBlock Text="Vorhandene Lebensmittel suchen, Mengen eintragen und später für Rezeptvorschläge verwenden." FontSize="14" Foreground="#777783" Margin="0,6,0,0"/>
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="390"/>
+                <ColumnDefinition Width="24"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Background="White" CornerRadius="22" BorderBrush="#FFE8E8EE" BorderThickness="1" Padding="20">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Lebensmittel hinzufügen" FontSize="20" FontWeight="Bold" Foreground="#24242A"/>
+                    <TextBox x:Name="TxtSearch" Grid.Row="1" Height="38" Margin="0,14,0,10" FontSize="15" TextChanged="TxtSearch_TextChanged"/>
+                    <ListBox x:Name="ListBoxFoods" Grid.Row="2" FontSize="14" SelectionChanged="ListBoxFoods_SelectionChanged"/>
+
+                    <StackPanel Grid.Row="3" Margin="0,14,0,0">
+                        <TextBlock Text="Menge in Gramm" FontWeight="SemiBold" Foreground="#24242A"/>
+                        <TextBox x:Name="TxtAmount" Height="36" Margin="0,6,0,12" FontSize="15"/>
+                        <Button Content="Zum Pantry hinzufügen" Style="{StaticResource PrimaryButton}" Click="AddToPantry_Click"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <Border Grid.Column="2" Background="White" CornerRadius="22" BorderBrush="#FFE8E8EE" BorderThickness="1" Padding="20">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Vorhandene Lebensmittel" FontSize="20" FontWeight="Bold" Foreground="#24242A" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="TxtSummary" FontSize="13" Foreground="#777783" VerticalAlignment="Center" Margin="16,4,0,0"/>
+                    </StackPanel>
+
+                    <DataGrid x:Name="DataGridPantry" Grid.Row="1" AutoGenerateColumns="False" CanUserAddRows="False" Margin="0,14,0,14" SelectionMode="Single">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Lebensmittel" Binding="{Binding Name}" Width="*"/>
+                            <DataGridTextColumn Header="Menge (g)" Binding="{Binding AmountInGram, StringFormat=F0}" Width="120"/>
+                            <DataGridTextColumn Header="Kalorien" Binding="{Binding Calories, StringFormat=F0}" Width="120"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Content="Ausgewähltes löschen" Style="{StaticResource SecondaryButton}" Margin="0,0,10,0" Click="DeleteSelected_Click"/>
+                        <Button Content="Schließen" Style="{StaticResource SecondaryButton}" Click="Close_Click"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>
