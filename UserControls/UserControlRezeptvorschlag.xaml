@@ -1,12 +1,41 @@
-﻿<UserControl x:Class="Pantry_To_Plate.UserControls.UserControlRezeptvorschlag"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Pantry_To_Plate.UserControls"
-             mc:Ignorable="d" 
-             d:DesignHeight="165" d:DesignWidth="270">
-    <Canvas Background="White">
-            
-    </Canvas>
+﻿<UserControl x:Class="Pantry_To_Plate.UserControls.UserControlRezeptvorschlag" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" d:DesignHeight="165" d:DesignWidth="270" Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <Style x:Key="SmallButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#FFFFF4F8"/>
+            <Setter Property="Foreground" Value="#EB477B"/>
+            <Setter Property="BorderBrush" Value="#FFFFC8D7"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Border Background="White" CornerRadius="22" BorderBrush="#FFE8E8EE" BorderThickness="1" Padding="16">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="Bestes Rezept" FontSize="13" FontWeight="SemiBold" Foreground="#777783"/>
+            <TextBlock x:Name="TxtRecipeName" Grid.Row="1" Text="Kein Vorschlag" FontSize="19" FontWeight="Bold" Foreground="#24242A" TextWrapping="Wrap" Margin="0,4,0,0"/>
+
+            <Grid Grid.Row="2" Margin="0,10,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <ProgressBar x:Name="ProgressMatch" Height="12" Minimum="0" Maximum="100" Value="0" Foreground="#648C58" Background="#FFE8EFE5"/>
+                <TextBlock x:Name="TxtPercent" Grid.Column="1" Text="0%" FontSize="12" FontWeight="Bold" Foreground="#648C58" Margin="8,0,0,0" VerticalAlignment="Center"/>
+            </Grid>
+
+            <TextBlock x:Name="TxtInfo" Grid.Row="3" Text="Füge Zutaten ins Pantry hinzu." FontSize="12" Foreground="#777783" TextWrapping="Wrap" Margin="0,10,0,29" Grid.RowSpan="2"/>
+            <Button x:Name="BtnOpenRecipes" Grid.Row="4" Content="Rezept anschauen" Style="{StaticResource SmallButtonStyle}" HorizontalAlignment="Left" Margin="0,10,0,0" Click="BtnOpenRecipes_Click"/>
+        </Grid>
+    </Border>
 </UserControl>

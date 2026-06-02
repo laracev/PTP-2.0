@@ -11,7 +11,6 @@
   <ItemGroup>
     <None Remove="data\MET_Werte_Tabelle.csv" />
     <None Remove="data\rezepte_echt_brauchbar_1200.csv" />
-    <None Remove="data\test_utf8 - Kopieren.csv" />
     <None Remove="data\test_utf8.csv" />
   </ItemGroup>
 
@@ -22,7 +21,7 @@
     <Content Include="data\rezepte_echt_brauchbar_1200.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="data\test_utf8 - Kopieren.csv">
+    <Content Include="data\test_utf8.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Screenshot 2026-05-07 134630.png">
