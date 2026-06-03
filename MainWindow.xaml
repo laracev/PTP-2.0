@@ -132,7 +132,7 @@
 
             <StackPanel>
 
-                <Image Source="/Screenshot 2026-05-07 134630.png" Stretch="Fill" Height="197" Width="214"/>
+                <Image Source="pack://siteoforigin:,,,/pictures/Screenshot 2026-05-07 134630.png" Stretch="Fill" Height="197" Width="214"/>
 
                 <TextBlock Text="Pantry To Plate" FontSize="24" FontWeight="Bold" Foreground="#24242A" Margin="34,0,34,4"/>
 
