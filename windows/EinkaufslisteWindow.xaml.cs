@@ -35,6 +35,8 @@ namespace Pantry_To_Plate.windows
 
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
+            // gelöschte items werden in pantry hinzugefügt
+
             ShoppingListService.Clear();
             LoadShoppingList();
         }

@@ -157,6 +157,18 @@ namespace Pantry_To_Plate.windows
             LoadPantry();
         }
 
+        public void LoadIngredientsFromRecipe(List<Ingredient> ingredients)
+        {
+            foreach (var ingredient in ingredients)
+            {
+                FoodItems food = foods.FirstOrDefault(f => string.Equals(f.Name, ingredient.Name, StringComparison.OrdinalIgnoreCase));
+                if (food != null)
+                {
+                    PantryService.AddOrUpdate(food, ingredient.Amount);
+                }
+            }
+            LoadPantry();
+        }
         private void Close_Click(object sender, RoutedEventArgs e)
         {
             Close();

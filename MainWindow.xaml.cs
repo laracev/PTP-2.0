@@ -110,7 +110,7 @@ namespace Pantry_To_Plate
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
-            fitnessaktivitäthinzufügenwindow fitwin = new fitnessaktivitäthinzufügenwindow();
+            fitnessaktivitäthinzufügenwindow    fitwin = new fitnessaktivitäthinzufügenwindow();
             fitwin.Owner = this;
             fitwin.ShowDialog();
             UpdateDailyValues();
@@ -139,6 +139,15 @@ namespace Pantry_To_Plate
 
         private void ProgressBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
+        }
+
+        private void BtnEinkaufliste_Click(object sender, RoutedEventArgs e)
+        {
+
+            EinkaufslisteWindow einkauflisteWindow = new EinkaufslisteWindow();
+            // Shoutout an David 10^2 und Valentin leider ned 10^2 für eana sine hilfe, valentin ohne di wüsst i imma no ned wia dass ma > in vsc drucka muss zum pdf erstella und david fallt ma etzt nix i aba trotzdem shoutout an di<3
+            einkauflisteWindow.Show();
+
         }
     }
 }
