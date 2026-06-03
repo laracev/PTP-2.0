@@ -32,7 +32,7 @@ namespace Pantry_To_Plate.mods
 
             foreach (Ingredient ingredient in Ingredients)
             {
-                FoodItems food = foods.FirstOrDefault(f => string.Equals(f.Name, ingredient.FoodName, StringComparison.OrdinalIgnoreCase));
+                FoodItems food = foods.FirstOrDefault(f => string.Equals(f.Name, ingredient.FoodName, StringComparison.OrdinalIgnoreCase)) ?? foods.FirstOrDefault(f => f.Name.IndexOf(ingredient.FoodName, StringComparison.OrdinalIgnoreCase) >= 0);
 
                 if (food == null)
                 {

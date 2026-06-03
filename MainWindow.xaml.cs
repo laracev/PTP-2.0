@@ -140,5 +140,10 @@ namespace Pantry_To_Plate
         private void ProgressBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
         }
+
+        private void RezeptvorschlagControl_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
