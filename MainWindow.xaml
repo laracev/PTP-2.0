@@ -294,7 +294,7 @@
                     <Button Content="Fitnessaktivität &#xD;&#xA;Hinzufügen" Height="67" Canvas.Left="12" Canvas.Top="111" Width="174" HorizontalAlignment="Center" VerticalAlignment="Top" Click="Button_Click_4" Style="{StaticResource ActionButtonStyle}"/>
                 </Canvas>
                 <views:UserControlRezeptvorschlag Height="159" Canvas.Left="617" Canvas.Top="322" Width="268"/>
-                <Button Name="BtnEinkaufliste" FontSize="30" Content="Einkaufsliste" Canvas.Left="595" Canvas.Top="528" Height="132" Width="521" HorizontalAlignment="Center" VerticalAlignment="Top" Click="BtnEinkaufliste_Click"/>
+                <Button Style="{StaticResource ActionButtonStyle}" Name="BtnEinkaufliste" FontSize="30" Content="Einkaufsliste" Canvas.Left="595" Canvas.Top="528" Height="132" Width="521" HorizontalAlignment="Center" VerticalAlignment="Top" Click="BtnEinkaufliste_Click"/>
 
             </Canvas>
         </Grid>
