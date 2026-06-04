@@ -157,14 +157,14 @@ namespace Pantry_To_Plate.windows
             LoadPantry();
         }
 
-        public void LoadIngredientsFromRecipe(List<Ingredient> ingredients)
+        public void LoadIngredientsFromRecipe(List<Ingredient> Ingredients)
         {
-            foreach (var ingredient in ingredients)
+            foreach (var ingredient in Ingredients)
             {
-                FoodItems food = foods.FirstOrDefault(f => string.Equals(f.Name, ingredient.Name, StringComparison.OrdinalIgnoreCase));
+                FoodItems food = foods.FirstOrDefault(f => string.Equals(f.Name, ingredient.FoodName, StringComparison.OrdinalIgnoreCase));
                 if (food != null)
                 {
-                    PantryService.AddOrUpdate(food, ingredient.Amount);
+                    PantryService.AddOrUpdate(food, ingredient.AmountGram);
                 }
             }
             LoadPantry();
@@ -172,6 +172,39 @@ namespace Pantry_To_Plate.windows
         private void Close_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+        private int sortMode = 0;
+        
+        // 0 = kalorien
+        // 1 = menge in gramm
+        private void RefreshGrid()
+        {
+            DataGridPantry.ItemsSource = null;
+            DataGridPantry.ItemsSource = pantry;
+        }
+
+        private void BtnFiltern_Click(object sender, RoutedEventArgs e)
+        { 
+           if (sortMode >= 1)
+            {
+                sortMode =0;
+            }
+            else
+            {
+                sortMode+=1;
+            }
+           if (sortMode == 0)
+            {
+                pantry= pantry.OrderByDescending(p => p.Calories).ToList();
+                BtnFiltern.Content= "Sortierung: Kalorien";
+                RefreshGrid();
+            }
+            if (sortMode == 1) {
+            pantry = pantry.OrderByDescending(p => p.AmountInGram).ToList();
+                BtnFiltern.Content= "Sortierung: Menge g";
+                RefreshGrid();
+            }
+
         }
     }
 }
