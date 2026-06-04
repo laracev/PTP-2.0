@@ -10,17 +10,24 @@ namespace Pantry_To_Plate.mods
     public static class PantryService
     {
         private static string path = @"data\Pantry.csv";
+        private static List<PantryItem> cachedPantry = null;
 
         public static List<PantryItem> Load()
         {
+            if (cachedPantry != null)
+            {
+                return cachedPantry;
+            }
+
             Directory.CreateDirectory("data");
-            List<PantryItem> pantry = new List<PantryItem>();
 
             if (!File.Exists(path))
             {
-                return pantry;
+                cachedPantry = new List<PantryItem>();
+                return cachedPantry;
             }
 
+            var pantry = new List<PantryItem>();
             var lines = File.ReadAllLines(path).Skip(1);
 
             foreach (string line in lines)
@@ -51,7 +58,8 @@ namespace Pantry_To_Plate.mods
                 });
             }
 
-            return pantry;
+            cachedPantry = pantry;
+            return cachedPantry;
         }
 
         public static void Save(List<PantryItem> pantry)
@@ -80,6 +88,13 @@ namespace Pantry_To_Plate.mods
             }
 
             File.WriteAllLines(path, lines);
+
+            cachedPantry = pantry;
+        }
+
+        public static void InvalidateCache()
+        {
+            cachedPantry = null;
         }
 
         public static void AddOrUpdate(FoodItems food, double amountGram)
