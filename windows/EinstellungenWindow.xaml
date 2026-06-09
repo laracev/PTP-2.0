@@ -1,4 +1,4 @@
-﻿<Window x:Class="Pantry_To_Plate.windows.EinstellungenWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:Pantry_To_Plate.windows" mc:Ignorable="d" Title="EinstellungenWindow" Height="856" Width="1245" MinHeight="580" MinWidth="920" WindowStartupLocation="CenterOwner" Background="#FFF7F7FA">
+<Window x:Class="Pantry_To_Plate.windows.EinstellungenWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:Pantry_To_Plate.windows" xmlns:uc="clr-namespace:Pantry_To_Plate.UserControls" mc:Ignorable="d" Title="EinstellungenWindow" Height="856" Width="1555" MinHeight="580" MinWidth="1230" WindowStartupLocation="CenterScreen" WindowState="Maximized" Background="#FFF7F7FA">
 
     <Window.Resources>
         <SolidColorBrush x:Key="AccentBrush" Color="#EB477B"/>
@@ -100,130 +100,140 @@
             <Setter Property="BorderBrush" Value="#FFD7E4D1"/>
         </Style>
     </Window.Resources>
+    <Grid Background="#FFF7F7FA">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="290"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-    <Grid Margin="28">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+        <uc:Sidebar Grid.Column="0" ActivePage="Einstellungen"/>
 
-        <Border Grid.Row="0" CornerRadius="30" Background="#FFFFEEF4" BorderBrush="#FFFFC8D7" BorderThickness="1" Padding="28" Margin="0,0,0,22" Effect="{StaticResource SoftShadow}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <StackPanel>
-                    <TextBlock Text="Einstellungen" FontSize="32" FontWeight="Bold" Foreground="#24242A"/>
-                    <TextBlock Text="Passe dein Tagesziel, deine Aktivität und deine persönlichen Werte an." FontSize="15" Foreground="#777783" Margin="0,8,0,0"/>
-                </StackPanel>
-                <Border Grid.Column="1" Width="78" Height="78" CornerRadius="24" Background="White" BorderBrush="#FFFFC8D7" BorderThickness="1">
-                    <TextBlock Text="⚙" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Border>
-            </Grid>
-        </Border>
-
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1.05*"/>
-                <ColumnDefinition Width="1.35*"/>
-            </Grid.ColumnDefinitions>
-
-            <Border Grid.Column="0" Background="White" CornerRadius="28" Padding="24" Margin="0,0,20,0" Effect="{StaticResource SoftShadow}">
-                <Grid>
+        <Border Grid.Column="1" Background="#FFF7F7FA">
+            <Grid Margin="28">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <StackPanel Grid.Row="0">
-                        <TextBlock Text="Schnellaktionen" FontSize="22" FontWeight="Bold"/>
-                        <TextBlock Text="Speichern, schließen oder deine eingetragenen Mahlzeiten prüfen." FontSize="14" Foreground="#777783" TextWrapping="Wrap" Margin="0,6,0,0"/>
-                    </StackPanel>
-
-                    <StackPanel Grid.Row="1" Margin="0,24,0,0">
-                        <Button Background="GhostWhite" Content="eingetragene Mahlzeiten&#xD;&#xA;anzeigen" Height="54" Width="260" HorizontalAlignment="Stretch" Click="Button_Click_2"/>
-                        <Button Background="GhostWhite" Content="Einstellungen zurücksetzen" Height="54" Width="260" Name="BtnEinstellungenZurücksetzen" Click="BtnEinstellungenZurücksetzen_Click"/>
-                        <Button Background="GhostWhite" Content="Einstellungen Schließen" Height="54" Width="260" HorizontalAlignment="Stretch" Margin="0,12,0,0" Click="Button_Click"/>
-                        <Button Background="GhostWhite" Content="Werte Speichern und &#xD;&#xA;Einstellungen schließen" Height="62" Width="260" HorizontalAlignment="Stretch" Margin="0,12,0,0" Click="Button_Click_3" Style="{StaticResource PrimaryButtonStyle}" Foreground="Red"/>
-                    </StackPanel>
-
-                    <Border Grid.Row="2" Background="#FFFFF4F8" BorderBrush="#FFFFC8D7" BorderThickness="1" CornerRadius="24" Padding="20" Margin="0,28,0,0">
-                        <StackPanel>
-                            <TextBlock Text="Tageskalorienziel" FontSize="20" FontWeight="Bold" Foreground="#EB477B"/>
-                            <Label Content="Tageskalorienziel:" Margin="0,14,0,6"/>
-                            <TextBox Name="ziel" Text="0" TextWrapping="Wrap" TextChanged="TextBox_TextChanged_3"/>
-                        </StackPanel>
+                    <Border Grid.Row="0" CornerRadius="30" Background="#FFFFEEF4" BorderBrush="#FFFFC8D7" BorderThickness="1" Padding="28" Margin="0,0,0,22" Effect="{StaticResource SoftShadow}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel>
+                                <TextBlock Text="Einstellungen" FontSize="32" FontWeight="Bold" Foreground="#24242A"/>
+                                <TextBlock Text="Passe dein Tagesziel, deine Aktivität und deine persönlichen Werte an." FontSize="15" Foreground="#777783" Margin="0,8,0,0"/>
+                            </StackPanel>
+                            <Border Grid.Column="1" Width="78" Height="78" CornerRadius="24" Background="White" BorderBrush="#FFFFC8D7" BorderThickness="1">
+                                <TextBlock Text="⚙" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </Grid>
                     </Border>
 
-                    <Border Grid.Row="3" Background="#FFE8EFE5" BorderBrush="#FFD7E4D1" BorderThickness="1" CornerRadius="24" Padding="18" Margin="0,22,0,0" VerticalAlignment="Bottom">
-                        <TextBlock Text="Tipp: Speichere deine Werte, damit dein Dashboard direkt mit deinem aktuellen Ziel arbeiten kann." FontSize="13" Foreground="#4F6F46" TextWrapping="Wrap"/>
-                    </Border>
-                </Grid>
-            </Border>
-
-            <Border Grid.Column="1" Background="White" CornerRadius="28" Padding="24" Effect="{StaticResource SoftShadow}">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-
-                    <StackPanel Grid.Row="0">
-                        <TextBlock Text="Persönliche Daten" FontSize="22" FontWeight="Bold"/>
-                        <TextBlock Text="Diese Angaben helfen bei der Berechnung deines empfohlenen Tagesziels." FontSize="14" Foreground="#777783" TextWrapping="Wrap" Margin="0,6,0,0"/>
-                    </StackPanel>
-
-                    <Grid Grid.Row="1" Margin="0,22,0,18">
+                    <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="18"/>
-                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="1.05*"/>
+                            <ColumnDefinition Width="1.35*"/>
                         </Grid.ColumnDefinitions>
 
-                        <StackPanel Grid.Column="0">
-                            <Label Content="Diätziel:"/>
-                            <ComboBox Background="#FFDFF3E4" Name="diätzielCombo" SelectionChanged="ComboBox_SelectionChanged">
-                                <Label Name="zunehmenComboans" Content="Gewicht Zunehmen"/>
-                                <Label Name="haltenComboans" Content="Gewicht Halten"/>
-                                <Label Name="abnehmenComboans" Content="Gewicht Abnehmen"/>
-                            </ComboBox>
+                        <Border Grid.Column="0" Background="White" CornerRadius="28" Padding="24" Margin="0,0,20,0" Effect="{StaticResource SoftShadow}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
 
-                            <Label Content="Alltagstätigkeit:" Margin="0,16,0,0"/>
-                            <ComboBox Background="#FFDFF3E4" Name="AlltagCombo" SelectionChanged="ComboBox_SelectionChanged_1">
-                                <Label Name="LPal" Content="nur liegend"/>
-                                <Label Name="MLPal" Content="Meist Liegend"/>
-                                <Label Name="NSPal" Content="Nur Sitzend (z.B. Büro)"/>
-                                <Label Name="ÜSPal" Content="Überwiegend Sitzend (z.B. Schüler;Lehrer"/>
-                                <Label Name="VSGPal" Content="Überwiegend Stehend/Gehend (z.B. Frieseur)"/>
-                                <Label Name="VKPal" Content="Vorwiegend Körperlich (z.B. Bauarbeiter, Sportler)"/>
-                            </ComboBox>
+                                <StackPanel Grid.Row="0">
+                                    <TextBlock Text="Schnellaktionen" FontSize="22" FontWeight="Bold"/>
+                                    <TextBlock Text="Speichern, schließen oder deine eingetragenen Mahlzeiten prüfen." FontSize="14" Foreground="#777783" TextWrapping="Wrap" Margin="0,6,0,0"/>
+                                </StackPanel>
 
-                            <Label Content="Geschlecht:" Margin="0,16,0,0"/>
-                            <ComboBox Background="#FFDFF3E4" Name="Geschlechtcombo" SelectionChanged="ComboBox_SelectionChanged_2">
-                                <Label Name="malec" Content="Männlich"/>
-                                <Label Name="femc" Content="Weiblich"/>
-                            </ComboBox>
-                        </StackPanel>
+                                <StackPanel Grid.Row="1" Margin="0,24,0,0">
+                                    <Button Background="GhostWhite" Content="eingetragene Mahlzeiten&#xD;&#xA;anzeigen" Height="54" Width="260" HorizontalAlignment="Stretch" Click="Button_Click_2"/>
+                                    <Button Background="GhostWhite" Content="Einstellungen zurücksetzen" Height="54" Width="260" Name="BtnEinstellungenZurücksetzen" Click="BtnEinstellungenZurücksetzen_Click"/>
+                                    <Button Background="GhostWhite" Content="Einstellungen Schließen" Height="54" Width="260" HorizontalAlignment="Stretch" Margin="0,12,0,0" Click="Button_Click"/>
+                                    <Button Background="GhostWhite" Content="Werte Speichern und &#xD;&#xA;Einstellungen schließen" Height="62" Width="260" HorizontalAlignment="Stretch" Margin="0,12,0,0" Click="Button_Click_3" Style="{StaticResource PrimaryButtonStyle}" Foreground="Red"/>
+                                </StackPanel>
 
-                        <StackPanel Grid.Column="2">
-                            <Label Content="Alter:"/>
-                            <TextBox Name="ageans" Text="1.2" TextWrapping="Wrap" TextChanged="TextBox_TextChanged_2"/>
+                                <Border Grid.Row="2" Background="#FFFFF4F8" BorderBrush="#FFFFC8D7" BorderThickness="1" CornerRadius="24" Padding="20" Margin="0,28,0,0">
+                                    <StackPanel>
+                                        <TextBlock Text="Tageskalorienziel" FontSize="20" FontWeight="Bold" Foreground="#EB477B"/>
+                                        <Label Content="Tageskalorienziel:" Margin="0,14,0,6"/>
+                                        <TextBox Name="ziel" Text="0" TextWrapping="Wrap" TextChanged="TextBox_TextChanged_3"/>
+                                    </StackPanel>
+                                </Border>
 
-                            <Label Content="Gewicht eingeben:&#xA;(Kg)" Margin="0,16,0,0"/>
-                            <TextBox Name="Gewichteingabe" Text="0" TextWrapping="Wrap" TextChanged="TextBox_TextChanged_1"/>
+                                <Border Grid.Row="3" Background="#FFE8EFE5" BorderBrush="#FFD7E4D1" BorderThickness="1" CornerRadius="24" Padding="18" Margin="0,22,0,0" VerticalAlignment="Bottom">
+                                    <TextBlock Text="Tipp: Speichere deine Werte, damit dein Dashboard direkt mit deinem aktuellen Ziel arbeiten kann." FontSize="13" Foreground="#4F6F46" TextWrapping="Wrap"/>
+                                </Border>
+                            </Grid>
+                        </Border>
 
-                            <Label Content="Größe eingeben: &#xA;(cm)" Margin="0,16,0,0"/>
-                            <TextBox Name="größeeingabe" Text="0" TextWrapping="Wrap" TextChanged="TextBox_TextChanged"/>
-                        </StackPanel>
+                        <Border Grid.Column="1" Background="White" CornerRadius="28" Padding="24" Effect="{StaticResource SoftShadow}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <StackPanel Grid.Row="0">
+                                    <TextBlock Text="Persönliche Daten" FontSize="22" FontWeight="Bold"/>
+                                    <TextBlock Text="Diese Angaben helfen bei der Berechnung deines empfohlenen Tagesziels." FontSize="14" Foreground="#777783" TextWrapping="Wrap" Margin="0,6,0,0"/>
+                                </StackPanel>
+
+                                <Grid Grid.Row="1" Margin="0,22,0,18">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="18"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel Grid.Column="0">
+                                        <Label Content="Diätziel:"/>
+                                        <ComboBox Background="#FFDFF3E4" Name="diätzielCombo" SelectionChanged="ComboBox_SelectionChanged">
+                                            <Label Name="zunehmenComboans" Content="Gewicht Zunehmen"/>
+                                            <Label Name="haltenComboans" Content="Gewicht Halten"/>
+                                            <Label Name="abnehmenComboans" Content="Gewicht Abnehmen"/>
+                                        </ComboBox>
+
+                                        <Label Content="Alltagstätigkeit:" Margin="0,16,0,0"/>
+                                        <ComboBox Background="#FFDFF3E4" Name="AlltagCombo" SelectionChanged="ComboBox_SelectionChanged_1">
+                                            <Label Name="LPal" Content="nur liegend"/>
+                                            <Label Name="MLPal" Content="Meist Liegend"/>
+                                            <Label Name="NSPal" Content="Nur Sitzend (z.B. Büro)"/>
+                                            <Label Name="ÜSPal" Content="Überwiegend Sitzend (z.B. Schüler;Lehrer"/>
+                                            <Label Name="VSGPal" Content="Überwiegend Stehend/Gehend (z.B. Frieseur)"/>
+                                            <Label Name="VKPal" Content="Vorwiegend Körperlich (z.B. Bauarbeiter, Sportler)"/>
+                                        </ComboBox>
+
+                                        <Label Content="Geschlecht:" Margin="0,16,0,0"/>
+                                        <ComboBox Background="#FFDFF3E4" Name="Geschlechtcombo" SelectionChanged="ComboBox_SelectionChanged_2">
+                                            <Label Name="malec" Content="Männlich"/>
+                                            <Label Name="femc" Content="Weiblich"/>
+                                        </ComboBox>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="2">
+                                        <Label Content="Alter:"/>
+                                        <TextBox Name="ageans" Text="1.2" TextWrapping="Wrap" TextChanged="TextBox_TextChanged_2"/>
+
+                                        <Label Content="Gewicht eingeben:&#xA;(Kg)" Margin="0,16,0,0"/>
+                                        <TextBox Name="Gewichteingabe" Text="0" TextWrapping="Wrap" TextChanged="TextBox_TextChanged_1"/>
+
+                                        <Label Content="Größe eingeben: &#xA;(cm)" Margin="0,16,0,0"/>
+                                        <TextBox Name="größeeingabe" Text="0" TextWrapping="Wrap" TextChanged="TextBox_TextChanged"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <Button Grid.Row="1" Background="GhostWhite" Content="Empfehlung für das &#xA;Tagesziel Berechnen&#xD;&#xA;und Einfügen" Click="Button_Click_1" Style="{StaticResource GreenButtonStyle}" Margin="0,376,0,18"/>
+                            </Grid>
+                        </Border>
                     </Grid>
-
-                    <Button Grid.Row="1" Background="GhostWhite" Content="Empfehlung für das &#xA;Tagesziel Berechnen&#xD;&#xA;und Einfügen" Click="Button_Click_1" Style="{StaticResource GreenButtonStyle}" Margin="0,376,0,18"/>
                 </Grid>
-            </Border>
-        </Grid>
+        </Border>
     </Grid>
 </Window>

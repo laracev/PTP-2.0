@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 namespace Pantry_To_Plate.mods
@@ -11,5 +11,10 @@ namespace Pantry_To_Plate.mods
         public double Protein { get; set; }
         public double Carbs { get; set; }
         public double Fat { get; set; }
+
+        public string DisplayText
+        {
+            get { return $"{FoodName} - {AmountGram:F0} g - {Calories:F0} kcal"; }
+        }
     }
 }
