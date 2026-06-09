@@ -48,9 +48,13 @@ namespace Pantry_To_Plate.mods
             List<string> lines = new List<string>();
             lines.Add("FoodName;AmountGram");
 
-            foreach (Ingredient item in items.OrderBy(i => i.FoodName))
+            foreach (Ingredient item in items
+                .Where(i => i != null && !string.IsNullOrWhiteSpace(i.FoodName) && i.AmountGram > 0)
+                .GroupBy(i => i.FoodName.Trim(), StringComparer.OrdinalIgnoreCase)
+                .Select(g => new Ingredient { FoodName = g.First().FoodName.Trim(), AmountGram = g.Sum(i => i.AmountGram) })
+                .OrderBy(i => i.FoodName))
             {
-                lines.Add(item.FoodName + ";" + item.AmountGram.ToString(CultureInfo.InvariantCulture));
+                lines.Add(Clean(item.FoodName) + ";" + item.AmountGram.ToString(CultureInfo.InvariantCulture));
             }
 
             File.WriteAllLines(path, lines);
@@ -78,10 +82,40 @@ namespace Pantry_To_Plate.mods
             AppLogger.Log("Fehlende Zutaten zur Einkaufsliste hinzugefügt.");
         }
 
+        public static void Remove(Ingredient itemToRemove)
+        {
+            if (itemToRemove == null)
+            {
+                return;
+            }
+
+            List<Ingredient> shoppingList = Load();
+            Ingredient existing = shoppingList.FirstOrDefault(i =>
+                string.Equals(i.FoodName, itemToRemove.FoodName, StringComparison.OrdinalIgnoreCase) &&
+                Math.Abs(i.AmountGram - itemToRemove.AmountGram) < 0.01);
+
+            if (existing != null)
+            {
+                shoppingList.Remove(existing);
+                Save(shoppingList);
+                AppLogger.Log($"Eintrag aus Einkaufsliste entfernt: {itemToRemove.FoodName}");
+            }
+        }
+
         public static void Clear()
         {
             Save(new List<Ingredient>());
             AppLogger.Log("Einkaufsliste geleert.");
+        }
+
+        private static string Clean(string value)
+        {
+            if (value == null)
+            {
+                return "";
+            }
+
+            return value.Replace(";", ",").Trim();
         }
     }
 }

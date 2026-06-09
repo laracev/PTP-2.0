@@ -20,11 +20,6 @@ namespace Pantry_To_Plate.windows
     /// </summary>
     public partial class AnimationWindow : Window
     {
-        // Hinweis: Diese Datei wurde bearbeitet von KI (GitHub Copilot)
-        // ki start
-        // Prompt: Zeige Animation beim Start, Logo soll beim Fade-In sichtbar werden
-        
-
         public AnimationWindow()
         {
             InitializeComponent();
@@ -32,15 +27,33 @@ namespace Pantry_To_Plate.windows
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            // Dauer der Animationen (sekunden)
-            double animationSeconds = 1.0;
+            // Animation länger anzeigen
+            double animationSeconds = 3.0;
             TimeSpan animDuration = TimeSpan.FromSeconds(animationSeconds);
+
+            // Alles direkt beim Start parallel im Hintergrund laden,
+            // während die Animation läuft.
+            Task loadTask = Task.Run(() =>
+            {
+                try
+                {
+                    PantryService.Load();
+                    ShoppingListService.Load();
+                    RecipeService.Load();
+                    UserDataService.Load();
+                    FoodCatalogService.LoadAll();
+                }
+                catch (Exception ex)
+                {
+                    AppLogger.LogError($"Fehler beim Vorladen der Daten: {ex.Message}");
+                }
+            });
 
             // Fenster fade in
             DoubleAnimation fade = new DoubleAnimation(0, 1, animDuration);
             this.BeginAnimation(Window.OpacityProperty, fade);
 
-            // Logo fade in and zoom in (safe: check for null and ensure ScaleTransform exists)
+            // Logo fade in und zoom in
             DoubleAnimation logoFade = new DoubleAnimation(0, 1, animDuration);
             DoubleAnimation zoom = new DoubleAnimation(0.7, 1.0, animDuration);
 
@@ -48,7 +61,6 @@ namespace Pantry_To_Plate.windows
             {
                 Logo.BeginAnimation(UIElement.OpacityProperty, logoFade);
 
-                // ensure a ScaleTransform is available on the Logo
                 ScaleTransform scale = null;
                 if (Logo.RenderTransform is ScaleTransform st)
                 {
@@ -66,39 +78,15 @@ namespace Pantry_To_Plate.windows
             }
             else
             {
-                AppLogger.LogWarning("AnimationWindow: Logo element not found in XAML (Logo is null).");
+                AppLogger.LogWarning("AnimationWindow: Logo element not found in XAML.");
             }
 
-            // Start loading pantry CSV in background while animation plays
-            var loadTask = Task.Run(() =>
-            {
-                try
-                {
-                    PantryService.Load();
-                }
-                catch (Exception ex)
-                {
-                    AppLogger.LogError($"Fehler beim Laden der Pantry: {ex.Message}");
-                }
-            });
-
-            // Wartezeit messen: warte auf das Laden und sorge dafür, dass die Animation
-            // mindestens so lange läuft wie angegeben (animDuration). Timeline.Completed
-            // kann in einigen Fällen nicht auf dem ursprünglichen Timeline-Objekt feuern,
-            // daher verwenden wir hier eine Zeitbasierte Lösung.
-            var start = DateTime.UtcNow;
-            await loadTask; // warte bis CSV geladen ist
-
-            var elapsed = DateTime.UtcNow - start;
-            var remaining = animDuration - elapsed;
-            if (remaining > TimeSpan.Zero)
-            {
-                await Task.Delay(remaining);
-            }
+            // Animation mindestens 3 Sekunden anzeigen und gleichzeitig auf Ladevorgang warten.
+            await Task.WhenAll(loadTask, Task.Delay(animDuration));
 
             new MainWindow().Show();
             this.Close();
-            //ki end
         }
     }
 }
+

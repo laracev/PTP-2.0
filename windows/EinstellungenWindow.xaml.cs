@@ -1,10 +1,11 @@
-﻿using Pantry_To_Plate.mods;
+using Pantry_To_Plate.mods;
 using System;
 using System.Collections.Generic;
 using Pantry_To_Plate.mods;
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Globalization;
 
 namespace Pantry_To_Plate.windows
 {
@@ -17,10 +18,10 @@ namespace Pantry_To_Plate.windows
             InitializeComponent();
             userinfo = user;
 
-            Gewichteingabe.Text = userinfo.Weight.ToString();
-            größeeingabe.Text = userinfo.Height.ToString();
-            ageans.Text = userinfo.Age.ToString();
-            ziel.Text = userinfo.Kalorienziel.ToString();
+            Gewichteingabe.Text = userinfo.Weight > 0 ? userinfo.Weight.ToString(CultureInfo.InvariantCulture) : "";
+            größeeingabe.Text = userinfo.Height > 0 ? userinfo.Height.ToString(CultureInfo.InvariantCulture) : "";
+            ageans.Text = userinfo.Age > 0 ? userinfo.Age.ToString(CultureInfo.InvariantCulture) : "";
+            ziel.Text = userinfo.Kalorienziel > 0 ? userinfo.Kalorienziel.ToString(CultureInfo.InvariantCulture) : "";
 
             Geschlechtcombo.SelectedIndex = userinfo.Genderchoice - 1;
             diätzielCombo.SelectedIndex = userinfo.diätzielChoice - 1;
@@ -36,21 +37,27 @@ namespace Pantry_To_Plate.windows
         // Empfehlung berechnen und einfügen
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            if (!double.TryParse(Gewichteingabe.Text, out double gewicht))
+            if (!TryReadPositiveDouble(Gewichteingabe.Text, out double gewicht))
             {
                 MessageBox.Show("Bitte gültiges Gewicht eingeben.");
                 return;
             }
 
-            if (!double.TryParse(größeeingabe.Text, out double größe))
+            if (!TryReadPositiveDouble(größeeingabe.Text, out double größe))
             {
                 MessageBox.Show("Bitte gültige Größe eingeben.");
                 return;
             }
 
-            if (!double.TryParse(ageans.Text, out double alter))
+            if (!TryReadPositiveDouble(ageans.Text, out double alter))
             {
                 MessageBox.Show("Bitte gültiges Alter eingeben.");
+                return;
+            }
+
+            if (Geschlechtcombo.SelectedIndex < 0 || diätzielCombo.SelectedIndex < 0 || AlltagCombo.SelectedIndex < 0)
+            {
+                MessageBox.Show("Bitte Geschlecht, Diätziel und Alltag auswählen.");
                 return;
             }
 
@@ -87,10 +94,31 @@ namespace Pantry_To_Plate.windows
         // Werte speichern und schließen
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-            if (double.TryParse(ziel.Text, out double kalorienziel))
+            if (!TryReadPositiveDouble(ziel.Text, out double kalorienziel))
             {
-                userinfo.Kalorienziel = kalorienziel;
+                MessageBox.Show("Bitte zuerst ein gültiges Kalorienziel berechnen oder eingeben.");
+                return;
             }
+
+            userinfo.Kalorienziel = kalorienziel;
+
+            if (TryReadPositiveDouble(Gewichteingabe.Text, out double gewicht))
+            {
+                userinfo.Weight = gewicht;
+            }
+
+            if (TryReadPositiveDouble(größeeingabe.Text, out double größe))
+            {
+                userinfo.Height = größe;
+            }
+
+            if (TryReadPositiveDouble(ageans.Text, out double alter))
+            {
+                userinfo.Age = alter;
+            }
+
+            userinfo.diätzielChoice = diätzielCombo.SelectedIndex + 1;
+            userinfo.Genderchoice = Geschlechtcombo.SelectedIndex + 1;
 
             UserDataService.Save(userinfo);
 
@@ -114,6 +142,11 @@ namespace Pantry_To_Plate.windows
 
         private void BtnEinstellungenZurücksetzen_Click(object sender, RoutedEventArgs e)
         {
+            if (MessageBox.Show("Einstellungen wirklich zurücksetzen?", "Bestätigung", MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes)
+            {
+                return;
+            }
+
             diätzielCombo.SelectedIndex = -1;
             AlltagCombo.SelectedIndex = -1;
             Geschlechtcombo.SelectedIndex = -1;
@@ -121,6 +154,11 @@ namespace Pantry_To_Plate.windows
             Gewichteingabe.Text = "";
             größeeingabe.Text = "";
             ziel.Text = "";
+        }
+
+        private bool TryReadPositiveDouble(string text, out double value)
+        {
+            return double.TryParse(text.Replace(",", "."), NumberStyles.Any, CultureInfo.InvariantCulture, out value) && value > 0;
         }
     }
 }

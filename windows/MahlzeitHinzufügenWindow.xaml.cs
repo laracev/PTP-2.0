@@ -1,4 +1,4 @@
-﻿using Pantry_To_Plate.mods;
+using Pantry_To_Plate.mods;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -12,11 +12,20 @@ namespace Pantry_To_Plate.windows
     {
         private List<FoodItems> foods = new List<FoodItems>();
         private FoodItems selectedFood;
+        private List<DailyEntry> todayEntries = new List<DailyEntry>();
 
         public MahlzeitHinzufügenWindow()
         {
             InitializeComponent();
             LoadFoods();
+            LoadTodayEntries();
+        }
+
+        private void LoadTodayEntries()
+        {
+            todayEntries = DailyEntryService.LoadToday();
+            ListBoxLebensmittel.ItemsSource = null;
+            ListBoxLebensmittel.ItemsSource = todayEntries;
         }
 
         private void LoadFoods()
@@ -94,7 +103,7 @@ namespace Pantry_To_Plate.windows
 
             DailyEntryService.Add(entry);
 
-            ListBoxLebensmittel.Items.Add($"{selectedFood.Name} - {amountGram:F0} g");
+            LoadTodayEntries();
 
             TxtBoxLebensmittelHinzufügen.Clear();
             TxtBoxMenge.Clear();
@@ -122,6 +131,25 @@ namespace Pantry_To_Plate.windows
                 Btn_LebensMittelHinzufuegen.Content = selectedFood.Name + " hinzufügen";
                 Btn_LebensMittelHinzufuegen.IsEnabled = true;
             }
+        }
+
+        private void DeleteSelectedMeal_Click(object sender, RoutedEventArgs e)
+        {
+            DailyEntry selected = ListBoxLebensmittel.SelectedItem as DailyEntry;
+
+            if (selected == null)
+            {
+                MessageBox.Show("Bitte zuerst eine Mahlzeit aus der Liste auswählen.");
+                return;
+            }
+
+            DailyEntryService.Delete(selected);
+            LoadTodayEntries();
+        }
+
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
 
         private int GetSearchRank(string foodName, string input)

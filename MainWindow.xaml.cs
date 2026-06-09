@@ -21,32 +21,9 @@ namespace Pantry_To_Plate
 
         private double LoadBurnedCaloriesToday()
         {
-            string path = @"data/FitnessEintraege.csv";
-
-            if (!File.Exists(path))
-            {
-                return 0;
-            }
-
-            var lines = File.ReadAllLines(path).Skip(1);
-            double burnedCalories = 0;
-
-            foreach (string line in lines)
-            {
-                string[] parts = line.Split(';');
-                //chatgpt: wie mache ich das es jeden tag resettet wird?
-
-                if (parts.Length >= 4 && DateTime.TryParse(parts[0], out DateTime date) && date.Date == DateTime.Today)
-                {
-                    double kcal;
-                    if (double.TryParse(parts[3].Replace(",", "."), NumberStyles.Any, CultureInfo.InvariantCulture, out kcal))
-                    {
-                        burnedCalories += kcal;
-                    }
-                }
-                //chatgpt ende
-            }
-
+            //chatgpt: wie mache ich das es jeden tag resettet wird?
+            double burnedCalories = FitnessEntryService.LoadBurnedCaloriesToday();
+            //chatgpt ende
             return burnedCalories;
         }
 
@@ -74,6 +51,17 @@ namespace Pantry_To_Plate
             FettCounterLabel.Content = $"{eatenFat:F0} g";
 
             KalorienProgressBar.UpdateBar(netCalories, user.Kalorienziel);
+
+            if (ListBoxTodayMeals != null)
+            {
+                ListBoxTodayMeals.ItemsSource = null;
+                ListBoxTodayMeals.ItemsSource = entries;
+            }
+
+            if (TodaySummaryText != null)
+            {
+                TodaySummaryText.Text = $"{entries.Count} Mahlzeiten · {eatenCalories:F0} kcal";
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

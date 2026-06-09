@@ -72,6 +72,49 @@ namespace Pantry_To_Plate.mods
             return entries;
         }
 
+        public static void SaveToday(List<DailyEntry> entries)
+        {
+            string path = GetPath();
+            List<string> lines = new List<string>();
+            lines.Add("FoodName;AmountGram;Calories;Protein;Carbs;Fat");
+
+            foreach (DailyEntry entry in entries)
+            {
+                lines.Add(
+                    Clean(entry.FoodName) + ";" +
+                    entry.AmountGram.ToString(CultureInfo.InvariantCulture) + ";" +
+                    entry.Calories.ToString(CultureInfo.InvariantCulture) + ";" +
+                    entry.Protein.ToString(CultureInfo.InvariantCulture) + ";" +
+                    entry.Carbs.ToString(CultureInfo.InvariantCulture) + ";" +
+                    entry.Fat.ToString(CultureInfo.InvariantCulture)
+                );
+            }
+
+            File.WriteAllLines(path, lines);
+            AppLogger.Log("Tages-Einträge gespeichert.");
+        }
+
+        public static void Delete(DailyEntry entry)
+        {
+            if (entry == null)
+            {
+                return;
+            }
+
+            List<DailyEntry> entries = LoadToday();
+            DailyEntry toRemove = entries.FirstOrDefault(e =>
+                string.Equals(e.FoodName, entry.FoodName, StringComparison.OrdinalIgnoreCase) &&
+                Math.Abs(e.AmountGram - entry.AmountGram) < 0.01 &&
+                Math.Abs(e.Calories - entry.Calories) < 0.01);
+
+            if (toRemove != null)
+            {
+                entries.Remove(toRemove);
+                SaveToday(entries);
+                AppLogger.Log($"Tages-Eintrag gelöscht: {entry.FoodName}");
+            }
+        }
+
         private static double ReadDouble(string[] parts, int index)
         {
             double value;
